@@ -11,11 +11,11 @@ export class CreditCardService {
     ) {}
 
     async getAllCreditCards() {
-        return await this.creditCardRepository.find() ?? [];
+        return await this.creditCardRepository.find({relations: {statusData: true}}) ?? [];
     }
 
     async getById(id: string) {
-        return await this.creditCardRepository.findOne({where:{id}});
+        return await this.creditCardRepository.findOne({where:{id}, relations: {statusData: true}});
     }
 
     async createCreditCard(newCardData: CreditCard): Promise<CreditCard> {
@@ -41,7 +41,7 @@ export class CreditCardService {
         }
 
         // eliminacion logica, pasamos el status a inactive
-        card.status = 2;
+
         await this.creditCardRepository.save(card);
     }
 }
