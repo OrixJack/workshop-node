@@ -9,6 +9,7 @@ import { CreditCardModule } from './credit-card/credit-card.module.js';
 import { UuidService } from './uuid/uuid.service.js';
 import { UuidController } from './uuid/uuid.controller.js';
 import { UuidModule } from './uuid/uuid.module.js';
+import { CardType } from './entities/CardType.js';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { UuidModule } from './uuid/uuid.module.js';
       username: process.env.DB_USER || 'usr_class',
       password: process.env.DB_PASSWORD || 'my_class',
       database: process.env.DB_NAME || 'virtual_bank',
-      entities: [CreditCard, CreditCardStatus, Client],
+      entities: [CreditCard, CreditCardStatus, Client, CardType],
       synchronize: false,
       logging: false,
     }),
