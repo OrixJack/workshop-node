@@ -1,43 +1,38 @@
 class PriorityQueue {
   constructor() {
-    this.jobs = [];
-    this.running = false;
-    this.pending = 0;
+    this.tareas = [];
+    this.isProcessing = false;
   }
 
-  // Agrega un trabajo con prioridad (mayor número = mayor prioridad)
-  add(id, data, priority = 0) {
-    this.jobs.push({ id, data, priority });
-    // Ordena por prioridad descendente
-    this.jobs.sort((a, b) => b.priority - a.priority);
+  add(id, data, priority = 1) {
+    this.tareas.push({ id, data, priority });
+    this.tareas.sort((a, b) => b.priority - a.priority);
   }
 
-  // Obtiene el siguiente trabajo
-  shift() {
-    return this.jobs.shift();
+  get length(){
+    return this.tareas.length;
   }
 
-  // Inicia el procesamiento de trabajos
+  next () {
+    const job = this.tareas[0];
+    console.log(`Procesando: ${job.id} (prioridad: ${job.priority})`);
+    return this.tareas.shift();
+  }
+
   start() {
-    if (this.running) return;
-    this.running = true;
-    this._process();
-  }
-
-  // Procesa los trabajos de forma no bloqueante
-  _process() {
-    if (this.jobs.length === 0) {
-      this.running = false;
-      return;
+    if (this.length === 0) {
+      this.isProcessing = false;
+      return console.log('No hay tareas pendientes.');
     }
 
-    setImmediate(() => {
-      const job = this.shift();
-      if (job) {
-        console.log(`Procesando: ${job.id} (prioridad: ${job.priority})`);
-        this._process();
-      }
-    });
+    const tarea = this.next();
+    JSON.stringify(tarea.data);
+
+    if(tarea.priority > 5) {
+      console.log(`Procesando tarea urgente: ${tarea.id} (prioridad: ${tarea.priority})`);
+    }
+
+    setImmediate(() => this.start());
   }
 }
 

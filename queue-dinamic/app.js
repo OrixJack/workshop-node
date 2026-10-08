@@ -3,8 +3,8 @@ const PriorityQueue = require('./queue');
 const q = new PriorityQueue();
 
 // Inyección Bloqueante Base Prio 1
-console.log('Cargando 5000 reportes lentos...');
-for(let i = 0; i < 5000; i++) {
+console.log('Cargando 10000 reportes lentos...');
+for(let i = 0; i < 10000; i++) {
   q.add(`Rep-${i}`, { mock: true }, 1);
 }
 
@@ -17,5 +17,5 @@ setTimeout(() => {
   q.add('Transf-A', { user: 'CEO' }, 10);
   q.add('Transf-B', { user: 'CFO' }, 10);
   q.add('Transf-C', { user: 'CTO' }, 10);
-}, 500);
-// Válida que el Event Loop no está colapsado
+}, 1000);
+// Válida que el Event Loop no está colap  sado
