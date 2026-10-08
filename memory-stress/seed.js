@@ -1,8 +1,6 @@
 const fs = require('node:fs');
-const out = fs.createWriteStream('big.csv');
-let iter  = 10_000_000;
 
-function escribirBloque(){
+function escribirBloque(out, iter){
     let ok = true;
 
     while (iter > 0 && ok) {
@@ -14,10 +12,19 @@ function escribirBloque(){
     }
 
     if (iter > 0 ) {
-        out.once('drain', escribirBloque);
+        out.once('drain', () => escribirBloque(out, iter));
     } else {
-        console.log(`Sembrado masivo COMPLETADO`)
+        out.end(); // Cerrar el stream
     }
 }
 
-escribirBloque();
+module.exports = ((fileName, rows) => {
+    return new Promise((resolve) => {
+        const out = fs.createWriteStream(fileName);
+        escribirBloque(out, rows);
+        out.on('finish', () => {
+            console.log(`Sembrado masivo COMPLETADO`);
+            resolve();
+        });
+    });
+});
