@@ -5,7 +5,7 @@ const { clearInterval } = require('node:timers');
 const createCSV = require('./seed');
 
 
-(async () => {
+void (async () => {
     //crear csv
     await createCSV('big.csv', 10000000); // Crear un CSV grande con 1,000,000 de filas
 
